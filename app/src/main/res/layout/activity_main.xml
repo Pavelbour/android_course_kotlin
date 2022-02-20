@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/mainactivit__text_wiev"
+        />
+
     <Button
         android:id="@+id/main_activity__click_me_button"
         android:layout_width="wrap_content"

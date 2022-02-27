@@ -2,27 +2,26 @@ package ru.gb.android_course_kotlin.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.gb.android_course_kotlin.AppState
-import ru.gb.android_course_kotlin.data.IRepository
-import ru.gb.android_course_kotlin.data.Repository
+import ru.gb.android_course_kotlin.DataState
+import ru.gb.android_course_kotlin.data.IWeatherRepository
+import ru.gb.android_course_kotlin.data.WeatherRepository
 import java.lang.Thread.sleep
 
-class MainViewModel(private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-    private val repository: IRepository = Repository()
-) :
-    ViewModel() {
+class MainViewModel(private val liveDataToObserve: MutableLiveData<DataState> = MutableLiveData(),
+                    private val repository : IWeatherRepository = WeatherRepository()
+) : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
 
-    fun getWeatherFromLocalSource() = getDataFromLocalSource()
+    fun getListFromLocalSource() = getDataFromLocalSource()
 
-    fun getWeatherFromRemoteSource() = getDataFromLocalSource()
+    fun getListFromRemoteSource() = getDataFromLocalSource()
 
     private fun getDataFromLocalSource() {
-        liveDataToObserve.postValue(AppState.Loading)
+        liveDataToObserve.postValue(DataState.Loading)
         Thread {
             sleep(5000)
-            liveDataToObserve.postValue(AppState.Success(repository.getWeatherFromLocalStorage()))
+            liveDataToObserve.postValue(DataState.Success(repository.getWeatherListFromLocalStorage()))
         }.start()
     }
 }

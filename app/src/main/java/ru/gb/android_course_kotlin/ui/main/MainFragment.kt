@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,13 +17,14 @@ import ru.gb.android_course_kotlin.DataState
 import ru.gb.android_course_kotlin.R
 import java.lang.IllegalStateException
 
-class MainFragment : Fragment() {
+class MainFragment() : Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+//    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var controller: Controller
 
     override fun onAttach(context: Context) {
@@ -42,7 +45,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val adapter : Adapter = Adapter(controller)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.citiesList)
@@ -56,5 +59,8 @@ class MainFragment : Fragment() {
         }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
         viewModel.getListFromLocalSource()
+
+        val newCityButton : Button = view.findViewById(R.id.add_new_city__button)
+        newCityButton.setOnClickListener {controller.createNewCity()}
     }
 }

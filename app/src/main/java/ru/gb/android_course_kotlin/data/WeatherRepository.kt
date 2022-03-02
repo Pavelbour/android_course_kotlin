@@ -20,4 +20,8 @@ class WeatherRepository : IWeatherRepository {
     override fun getWeatherListFromServer(): ArrayList<Weather> {
         return weatherList
     }
+
+    override fun addNewItem(weather: Weather) {
+        weatherList.add(weather)
+    }
 }

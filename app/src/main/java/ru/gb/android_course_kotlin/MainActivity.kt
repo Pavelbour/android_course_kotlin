@@ -2,10 +2,13 @@ package ru.gb.android_course_kotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.gb.android_course_kotlin.data.IWeatherRepository
+import ru.gb.android_course_kotlin.data.WeatherRepository
 import ru.gb.android_course_kotlin.databinding.ActivityMainBinding
 import ru.gb.android_course_kotlin.domain.Weather
 import ru.gb.android_course_kotlin.ui.main.MainFragment
 import ru.gb.android_course_kotlin.ui.cityDetails.CityDetails
+import ru.gb.android_course_kotlin.ui.newCity.NewCity
 
 class MainActivity : AppCompatActivity(), Controller {
     private lateinit var binding: ActivityMainBinding
@@ -16,7 +19,6 @@ class MainActivity : AppCompatActivity(), Controller {
         setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-//                .replace(R.id.container, MainFragment.newInstance())
                 .replace(R.id.container, MainFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
@@ -26,6 +28,13 @@ class MainActivity : AppCompatActivity(), Controller {
     override fun showDetails(weather: Weather) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, CityDetails(weather))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun createNewCity() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, NewCity())
             .addToBackStack(null)
             .commit()
     }

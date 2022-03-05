@@ -1,6 +1,5 @@
 package ru.gb.android_course_kotlin.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +8,11 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.gb.android_course_kotlin.Controller
 import ru.gb.android_course_kotlin.DataState
 import ru.gb.android_course_kotlin.R
-import java.lang.IllegalStateException
+import ru.gb.android_course_kotlin.ui.newCity.NewCity
 
 class MainFragment() : Fragment() {
 
@@ -23,18 +20,8 @@ class MainFragment() : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-//    private lateinit var viewModel: MainViewModel
     private val viewModel: MainViewModel by activityViewModels()
-    private lateinit var controller: Controller
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is Controller) {
-            this.controller = context
-        } else {
-            throw IllegalStateException("Activity must implement Controller interface.")
-        }
-    }
+    private val adapter = Adapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +32,6 @@ class MainFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val adapter : Adapter = Adapter(controller)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.citiesList)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -61,6 +46,11 @@ class MainFragment() : Fragment() {
         viewModel.getListFromLocalSource()
 
         val newCityButton : Button = view.findViewById(R.id.add_new_city__button)
-        newCityButton.setOnClickListener {controller.createNewCity()}
+        newCityButton.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.container, NewCity())
+                ?.addToBackStack(null)
+                ?.commit()
+        }
     }
 }

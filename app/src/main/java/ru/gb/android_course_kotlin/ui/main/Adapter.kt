@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import ru.gb.android_course_kotlin.Controller
 import ru.gb.android_course_kotlin.R
 import ru.gb.android_course_kotlin.domain.Weather
+import ru.gb.android_course_kotlin.ui.cityDetails.CityDetails
 
-class Adapter(private val controller: Controller, private var data: ArrayList<Weather> = arrayListOf()) :
+class Adapter(private val activity: Fragment, private var data: ArrayList<Weather> = arrayListOf()) :
     RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,7 +30,13 @@ class Adapter(private val controller: Controller, private var data: ArrayList<We
 
         viewHolder.cityLabel.text = weather.city.city
         viewHolder.cityTemperature.text = weather.temperature.toString()
-        viewHolder.itemView.setOnClickListener { controller.showDetails(weather) }
+        viewHolder.itemView.setOnClickListener {
+            this.activity.parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, CityDetails(weather))
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun getItemCount() = data.size

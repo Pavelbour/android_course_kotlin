@@ -10,8 +10,28 @@ import ru.gb.android_course_kotlin.R
 import ru.gb.android_course_kotlin.domain.Weather
 import ru.gb.android_course_kotlin.ui.cityDetails.CityDetails
 
-class Adapter(private val activity: Fragment, private var data: ArrayList<Weather> = arrayListOf()) :
-    RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+
+    private var data: ArrayList<Weather> = arrayListOf()
+
+    val fragment: Fragment = activity
+
+    interface Listener {
+        fun showDetails(weather: Weather, fragment: Fragment)
+    }
+
+    class OnItemListener() : Listener{
+        override fun showDetails(weather: Weather, fragment: Fragment) {
+
+            fragment.activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.replace(R.id.container, CityDetails(weather))
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+    }
+
+    var listener: Listener? = OnItemListener()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cityLabel: TextView = view.findViewById(R.id.cityLabel)
@@ -30,13 +50,11 @@ class Adapter(private val activity: Fragment, private var data: ArrayList<Weathe
 
         viewHolder.cityLabel.text = weather.city.city
         viewHolder.cityTemperature.text = weather.temperature.toString()
-        viewHolder.itemView.setOnClickListener {
-            this.activity.parentFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, CityDetails(weather))
-                .addToBackStack(null)
-                .commit()
-        }
+        viewHolder.itemView.setOnClickListener { listener?.showDetails(weather, activity) }
+    }
+
+    fun removeListener() {
+        listener = null
     }
 
     override fun getItemCount() = data.size

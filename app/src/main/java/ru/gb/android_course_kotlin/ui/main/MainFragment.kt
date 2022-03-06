@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.android_course_kotlin.DataState
 import ru.gb.android_course_kotlin.R
+import ru.gb.android_course_kotlin.domain.Weather
 import ru.gb.android_course_kotlin.ui.newCity.NewCity
 
 class MainFragment() : Fragment() {
@@ -52,5 +53,10 @@ class MainFragment() : Fragment() {
                 ?.addToBackStack(null)
                 ?.commit()
         }
+    }
+
+    override fun onDestroy() {
+        adapter.removeListener()
+        super.onDestroy()
     }
 }

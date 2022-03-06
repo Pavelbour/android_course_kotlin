@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.android_course_kotlin.DataState
 import ru.gb.android_course_kotlin.R
-import ru.gb.android_course_kotlin.domain.Weather
+import ru.gb.android_course_kotlin.showSnackBar
 import ru.gb.android_course_kotlin.ui.newCity.NewCity
 
 class MainFragment() : Fragment() {
@@ -39,8 +39,17 @@ class MainFragment() : Fragment() {
         recyclerView.setAdapter(adapter)
 
         val observer = Observer<DataState> {
-            if (it is DataState.Success) {
-                adapter.setData(it.weather)
+            when(it) {
+                is DataState.Success -> {
+                    adapter.setData(it.weather)
+                }
+                is DataState.Error-> {
+                    view.showSnackBar(
+                        text = R.string.error,
+                        actionText = R.string.reload,
+                        action = { viewModel.getListFromLocalSource()}
+                    )
+                }
             }
         }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)

@@ -16,22 +16,13 @@ class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.Vie
 
     val fragment: Fragment = activity
 
-    interface Listener {
-        fun showDetails(weather: Weather, fragment: Fragment)
+    var listener: ((Weather)->Unit)? = fun (weather: Weather) {
+        fragment.activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.replace(R.id.container, CityDetails(weather))
+            ?.addToBackStack(null)
+            ?.commit()
     }
-
-    class OnItemListener() : Listener{
-        override fun showDetails(weather: Weather, fragment: Fragment) {
-
-            fragment.activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.container, CityDetails(weather))
-                ?.addToBackStack(null)
-                ?.commit()
-        }
-    }
-
-    var listener: Listener? = OnItemListener()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cityLabel: TextView = view.findViewById(R.id.cityLabel)
@@ -51,7 +42,7 @@ class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.Vie
         with(viewHolder) {
             cityLabel.text = weather.city.city
             cityTemperature.text = weather.temperature.toString()
-            itemView.setOnClickListener { listener?.showDetails(weather, activity) }
+            itemView.setOnClickListener { listener?.let { it1 -> it1(weather) } }
         }
     }
 

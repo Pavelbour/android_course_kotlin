@@ -48,9 +48,11 @@ class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.Vie
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val weather: Weather = data[position]
 
-        viewHolder.cityLabel.text = weather.city.city
-        viewHolder.cityTemperature.text = weather.temperature.toString()
-        viewHolder.itemView.setOnClickListener { listener?.showDetails(weather, activity) }
+        with(viewHolder) {
+            cityLabel.text = weather.city.city
+            cityTemperature.text = weather.temperature.toString()
+            itemView.setOnClickListener { listener?.showDetails(weather, activity) }
+        }
     }
 
     fun removeListener() {

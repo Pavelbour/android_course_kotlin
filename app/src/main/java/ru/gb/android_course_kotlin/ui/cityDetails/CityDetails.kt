@@ -29,19 +29,23 @@ class CityDetails(val weather: Weather) : Fragment() {
     }
 
     private fun setData(weatherData: Weather) {
-        binding.cityName.text = weatherData.city.city
-        binding.cityCoordinates.text = String.format(
-            getString(R.string.city_coordinates),
-            weatherData.city.lat.toString(),
-            weatherData.city.lon.toString()
-        )
-        binding.temperatureValue.text = weatherData.temperature.toString()
-        binding.feelsLikeValue.text = weatherData.feelsLike.toString()
+        with(binding) {
+            cityName.text = weatherData.city.city
+            cityCoordinates.text = String.format(
+                getString(R.string.city_coordinates),
+                weatherData.city.lat.toString(),
+                weatherData.city.lon.toString()
+            )
+            temperatureValue.text = weatherData.temperature.toString()
+            feelsLikeValue.text = weatherData.feelsLike.toString()
+        }
     }
 
     private fun showLoading(isShow: Boolean) {
-        binding.loadingLayout.isVisible = isShow
-        binding.mainView.isVisible = !isShow
+        with(binding) {
+            loadingLayout.isVisible = isShow
+            mainView.isVisible = !isShow
+        }
     }
 
     override fun onDestroyView() {

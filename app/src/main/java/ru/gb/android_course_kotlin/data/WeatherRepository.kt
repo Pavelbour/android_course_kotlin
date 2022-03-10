@@ -7,9 +7,9 @@ class WeatherRepository : IWeatherRepository {
     private val weatherList: ArrayList<Weather> = arrayListOf()
 
     init {
-        weatherList.add(Weather(City("New-York", 40.6974034, -74.119763), 15, 14))
-        weatherList.add(Weather(City("Paris", 48.8588336, 2.2769958),12, 10))
-        weatherList.add(Weather(City("Milan", 45.4627124, 9.107693),9, 8))
+        weatherList.add(Weather(City("New-York", 40.715097,  -74.003761), 15, 14))
+        weatherList.add(Weather(City("Paris", 48.856607, 2.351403),12, 10))
+        weatherList.add(Weather(City("Milan", 45.464111, 9.189400),9, 8))
 
     }
 

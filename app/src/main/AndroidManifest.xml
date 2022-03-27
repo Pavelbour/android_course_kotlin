@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.gb.android_course_kotlin">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_course_kotlin">
+        <service
+            android:name=".services.WeatherApiRequestService"
+            android:exported="false"></service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,6 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".services.NetworkChangeBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.CONNECTIVITY_ACTION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

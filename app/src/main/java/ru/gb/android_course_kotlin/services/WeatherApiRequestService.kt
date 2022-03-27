@@ -43,8 +43,7 @@ class WeatherApiRequestService : IntentService("WeatherApiRequestService") {
     private fun loadWeather(lat: String, lon: String) {
         try {
             val uri =
-//                URL("https://api.weather.yandex.ru/v2/informers?lat=${lat}&lon=${lon}")
-                URL("https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}")
+                URL("https://api.weather.yandex.ru/v2/informers?lat=${lat}&lon=${lon}")
             lateinit var urlConnection: HttpsURLConnection
             try {
                 urlConnection = uri.openConnection() as HttpsURLConnection

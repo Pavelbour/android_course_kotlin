@@ -1,18 +1,14 @@
 package ru.gb.android_course_kotlin.data
 
-import android.os.Build
 import android.os.Handler
-import android.util.Log
-import androidx.annotation.RequiresApi
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.gb.android_course_kotlin.BuildConfig
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.lang.Exception
-import java.net.MalformedURLException
-import java.net.URL
-import java.util.stream.Collectors
-import javax.net.ssl.HttpsURLConnection
+import java.io.IOException
 
 class WeatherLoader(private val listener: WeatherLoaderListener, private val lat: Double, private val lon: Double) {
     interface WeatherLoaderListener {
@@ -20,45 +16,38 @@ class WeatherLoader(private val listener: WeatherLoaderListener, private val lat
         fun onFailed(throwable: Throwable)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
+    private val weatherApi = Retrofit.Builder()
+        .baseUrl("https://api.weather.yandex.ru/")
+        .addConverterFactory(
+            GsonConverterFactory.create(
+                GsonBuilder().setLenient().create()
+            )
+        )
+        .build().create(WeatherApi::class.java)
+
     fun loadWeather() {
-        try {
-            val uri =
-                URL("https://api.weather.yandex.ru/v2/informers?lat=${lat}&lon=${lon}")
-            val handler = Handler()
-            Thread(Runnable {
-                lateinit var urlConnection: HttpsURLConnection
-                try {
-                    urlConnection = uri.openConnection() as HttpsURLConnection
-                    urlConnection.requestMethod = "GET"
-                    urlConnection.addRequestProperty(
-                        "X-Yandex-API-Key",
-                        BuildConfig.WEATHER_API_KEY
-                    )
-                    urlConnection.readTimeout = 10000
-                    val bufferedReader =
-                        BufferedReader(InputStreamReader(urlConnection.inputStream))
+        val handler : Handler = Handler()
 
-                    val weatherDTO: WeatherDTO =
-                        Gson().fromJson(getLines(bufferedReader), WeatherDTO::class.java)
-                    handler.post { listener.onLoaded(weatherDTO)}
-                } catch (e: Exception) {
-                    Log.e("", "Connection failed.", e)
-                    e.printStackTrace()
-                    listener.onFailed(e)
-                } finally {
-                    urlConnection.disconnect()
-                }
-            }).start()
-        } catch (e: MalformedURLException) {
-            Log.e("", "Fail URI", e)
-            e.printStackTrace()
-            listener.onFailed(e)
-        }
-    }
+        weatherApi.getWeather(
+            BuildConfig.WEATHER_API_KEY, lat,
+            lon
+        ).enqueue(object : Callback<WeatherDTO> {
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getLines(reader: BufferedReader): String {
-        return reader.lines().collect(Collectors.joining("\n"))
+                    @Throws(IOException::class)
+                    override fun onResponse(call: Call<WeatherDTO>?, response: Response<WeatherDTO>) {
+                        val serverResponse: WeatherDTO? = response.body()
+                        if (response.isSuccessful && serverResponse != null) {
+                            handler.post {
+                                listener.onLoaded(serverResponse)
+                            }
+                        } else {
+                            TODO("Error handler")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<WeatherDTO>, t: Throwable) {
+                        TODO("Not yet implemented")
+                    }
+                })
     }
 }

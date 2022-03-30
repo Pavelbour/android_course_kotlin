@@ -1,4 +1,4 @@
-package ru.gb.android_course_kotlin.ui.main
+package ru.gb.android_course_kotlin.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package ru.gb.android_course_kotlin.ui.main
+package ru.gb.android_course_kotlin.main
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.android_course_kotlin.R
+import ru.gb.android_course_kotlin.details.CityDetails
 import ru.gb.android_course_kotlin.domain.Weather
-import ru.gb.android_course_kotlin.ui.cityDetails.CityDetails
 
 class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 

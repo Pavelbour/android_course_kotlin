@@ -3,7 +3,7 @@ package ru.gb.android_course_kotlin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.gb.android_course_kotlin.databinding.ActivityMainBinding
-import ru.gb.android_course_kotlin.ui.main.MainFragment
+import ru.gb.android_course_kotlin.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

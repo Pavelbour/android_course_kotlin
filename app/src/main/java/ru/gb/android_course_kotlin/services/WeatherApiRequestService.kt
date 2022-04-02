@@ -7,7 +7,7 @@ import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import ru.gb.android_course_kotlin.BuildConfig
 import ru.gb.android_course_kotlin.data.WeatherDTO
-import ru.gb.android_course_kotlin.ui.cityDetails.*
+import ru.gb.android_course_kotlin.details.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.MalformedURLException

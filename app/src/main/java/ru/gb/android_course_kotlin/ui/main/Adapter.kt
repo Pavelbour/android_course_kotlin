@@ -1,5 +1,6 @@
-package ru.gb.android_course_kotlin.main
+package ru.gb.android_course_kotlin.ui.main
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import ru.gb.android_course_kotlin.R
-import ru.gb.android_course_kotlin.details.CityDetails
+import ru.gb.android_course_kotlin.ui.details.CityDetailsFragment
 import ru.gb.android_course_kotlin.domain.Weather
 
 class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.ViewHolder>() {
@@ -19,7 +20,14 @@ class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.Vie
     var listener: ((Weather)->Unit)? = fun (weather: Weather) {
         fragment.activity?.supportFragmentManager
             ?.beginTransaction()
-            ?.replace(R.id.container, CityDetails(weather))
+            ?.replace(R.id.container, CityDetailsFragment().also { fragment ->
+                fragment.arguments = Bundle().also { bundle ->
+                    bundle.putParcelable(
+                        CityDetailsFragment.BUNDLE_EXTRA,
+                        weather
+                    )
+                }
+            })
             ?.addToBackStack(null)
             ?.commit()
     }

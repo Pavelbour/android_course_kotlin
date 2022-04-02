@@ -2,6 +2,9 @@ package ru.gb.android_course_kotlin.data
 
 import android.os.Handler
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,15 +26,14 @@ class WeatherLoader(private val listener: WeatherLoaderListener, private val lat
                 GsonBuilder().setLenient().create()
             )
         )
+        .client(createOkHttpClient(WeatherApiInterceptor()))
         .build().create(WeatherApi::class.java)
 
     fun loadWeather() {
         val handler : Handler = Handler()
 
-        weatherApi.getWeather(
-            BuildConfig.WEATHER_API_KEY, lat,
-            lon
-        ).enqueue(object : Callback<WeatherDTO> {
+        weatherApi.getWeather(lat, lon)
+            .enqueue(object : Callback<WeatherDTO> {
 
                     @Throws(IOException::class)
                     override fun onResponse(call: Call<WeatherDTO>?, response: Response<WeatherDTO>) {
@@ -49,5 +51,35 @@ class WeatherLoader(private val listener: WeatherLoaderListener, private val lat
                         TODO("Not yet implemented")
                     }
                 })
+    }
+
+    private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(interceptor)
+        httpClient.addInterceptor(
+            HttpLoggingInterceptor().setLevel(
+                HttpLoggingInterceptor.Level.BODY
+            )
+        )
+        httpClient.addInterceptor(KeyInterceptor())
+        return httpClient.build()
+    }
+
+    inner class WeatherApiInterceptor : Interceptor {
+        @Throws(IOException::class)
+        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+            return chain.proceed(chain.request())
+        }
+    }
+
+    inner class KeyInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+            val request = chain.request()
+                .newBuilder()
+                .addHeader("X-Yandex-API-Key", BuildConfig.WEATHER_API_KEY)
+                .build()
+
+            return chain.proceed(request)
+        }
     }
 }

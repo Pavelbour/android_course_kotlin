@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import ru.gb.android_course_kotlin.App
 import ru.gb.android_course_kotlin.R
 import ru.gb.android_course_kotlin.data.WeatherDTO
 import ru.gb.android_course_kotlin.data.WeatherLoader
+import ru.gb.android_course_kotlin.data.localData.db.DbRepository
+import ru.gb.android_course_kotlin.data.localData.db.IDbRepository
 import ru.gb.android_course_kotlin.databinding.FragmentMainBinding
 import ru.gb.android_course_kotlin.domain.Weather
 
@@ -34,6 +37,7 @@ class CityDetailsFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
+    private val dbRepository: IDbRepository = DbRepository(App.getHistoryDao())
 
     private val loaderListener =
         object : WeatherLoader.WeatherLoaderListener {
@@ -41,6 +45,7 @@ class CityDetailsFragment : Fragment() {
                 weatherBundle.temperature = weatherDTO.fact.temp
                 weatherBundle.feelsLike = weatherDTO.fact.feelsLike
 
+                saveCityToDb(weatherBundle)
                 setData(weatherBundle)
             }
 
@@ -66,8 +71,6 @@ class CityDetailsFragment : Fragment() {
         }
         loadWeather(weatherBundle)
     }
-
-
 
     private fun setData(weatherData: Weather) {
         binding.mainView.visibility = View.VISIBLE
@@ -97,6 +100,10 @@ class CityDetailsFragment : Fragment() {
         val weatherLoader =
             WeatherLoader(loaderListener, weatherData.city.lat, weatherData.city.lon)
         weatherLoader.loadWeather()
+    }
+
+    private fun saveCityToDb(weather: Weather) {
+        dbRepository.saveEntity(weather)
     }
 
     override fun onDestroyView() {

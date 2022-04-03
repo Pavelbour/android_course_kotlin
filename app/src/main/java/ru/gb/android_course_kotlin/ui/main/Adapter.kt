@@ -13,7 +13,7 @@ import ru.gb.android_course_kotlin.domain.Weather
 
 class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
-    private var data: ArrayList<Weather> = arrayListOf()
+    private var data: List<Weather> = arrayListOf()
 
     val fragment: Fragment = activity
 
@@ -60,7 +60,7 @@ class Adapter(private val activity: Fragment) : RecyclerView.Adapter<Adapter.Vie
 
     override fun getItemCount() = data.size
 
-    fun setData(data: ArrayList<Weather>) {
+    fun setData(data: List<Weather>) {
         this.data = data
         notifyDataSetChanged()
     }

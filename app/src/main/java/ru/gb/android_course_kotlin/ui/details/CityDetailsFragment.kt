@@ -1,4 +1,4 @@
-package ru.gb.android_course_kotlin.details
+package ru.gb.android_course_kotlin.ui.details
 
 
 import android.os.Build
@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import ru.gb.android_course_kotlin.App
 import ru.gb.android_course_kotlin.R
 import ru.gb.android_course_kotlin.data.WeatherDTO
 import ru.gb.android_course_kotlin.data.WeatherLoader
+import ru.gb.android_course_kotlin.data.localData.db.DbRepository
+import ru.gb.android_course_kotlin.data.localData.db.IDbRepository
 import ru.gb.android_course_kotlin.databinding.FragmentMainBinding
 import ru.gb.android_course_kotlin.domain.Weather
 
@@ -29,25 +32,21 @@ const val DETAILS_TEMP_EXTRA = "TEMPERATURE"
 const val DETAILS_FEELS_LIKE_EXTRA = "FEELS LIKE"
 const val DETAILS_CONDITION_EXTRA = "CONDITION"
 
-class CityDetails(val weather: Weather) : Fragment() {
+class CityDetailsFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
-
-    private fun setWeatherData(temperature: Int, feelsLike: Int) {
-        weather.temperature = temperature
-        weather.feelsLike = feelsLike
-        setData(weather)
-    }
+    private val dbRepository: IDbRepository = DbRepository(App.getHistoryDao())
 
     private val loaderListener =
         object : WeatherLoader.WeatherLoaderListener {
             override fun onLoaded(weatherDTO: WeatherDTO) {
-                weather.temperature = weatherDTO.fact.temp
-                weather.feelsLike = weatherDTO.fact.feelsLike
+                weatherBundle.temperature = weatherDTO.fact.temp
+                weatherBundle.feelsLike = weatherDTO.fact.feelsLike
 
-                setData(weather)
+                saveCityToDb(weatherBundle)
+                setData(weatherBundle)
             }
 
             override fun onFailed(throwable: Throwable) {
@@ -67,10 +66,11 @@ class CityDetails(val weather: Weather) : Fragment() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadWeather(weather)
+        arguments?.getParcelable<Weather>(BUNDLE_EXTRA)?.let { weather ->
+            weatherBundle = weather
+        }
+        loadWeather(weatherBundle)
     }
-
-
 
     private fun setData(weatherData: Weather) {
         binding.mainView.visibility = View.VISIBLE
@@ -102,10 +102,13 @@ class CityDetails(val weather: Weather) : Fragment() {
         weatherLoader.loadWeather()
     }
 
+    private fun saveCityToDb(weather: Weather) {
+        dbRepository.saveEntity(weather)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-//        context?.unregisterReceiver(loadResultReceiver)
     }
 
     companion object {

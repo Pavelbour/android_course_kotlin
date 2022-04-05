@@ -1,9 +1,7 @@
-package ru.gb.android_course_kotlin.main
+package ru.gb.android_course_kotlin.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels

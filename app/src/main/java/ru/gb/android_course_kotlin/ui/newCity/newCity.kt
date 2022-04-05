@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import ru.gb.android_course_kotlin.databinding.FragmentNewSityBinding
 import ru.gb.android_course_kotlin.domain.City
 import ru.gb.android_course_kotlin.domain.Weather
-import ru.gb.android_course_kotlin.main.MainViewModel
+import ru.gb.android_course_kotlin.ui.main.MainViewModel
 
 
 class NewCity : Fragment() {

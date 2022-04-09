@@ -7,13 +7,13 @@
     android:fitsSystemWindows="true">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_history__recycler_view"
+        android:id="@+id/fragment_history_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 
     <include
-        android:id="@+id/includeLoadingLayout"
+        android:id="@+id/include_loading_layout"
         layout="@layout/included_loading_layout" />
 </FrameLayout>

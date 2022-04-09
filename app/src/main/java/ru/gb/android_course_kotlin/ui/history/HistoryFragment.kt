@@ -32,7 +32,7 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragment_history__recycler_view.adapter = adapter
+        binding.fragmentHistoryRecyclerView.adapter = adapter
         viewModel.historyLiveData.observe(viewLifecycleOwner, Observer {
             renderData(it)
         })

@@ -13,9 +13,12 @@ class HistoryViewModel(
 ): ViewModel() {
     fun getAllHistory() {
         historyLiveData.postValue(DataState.Loading)
-        historyLiveData.postValue(
-            DataState.Success(historyRepository.getAllHistory()
+        Thread {
+            historyLiveData.postValue(
+                DataState.Success(
+                    historyRepository.getAllHistory()
+                )
             )
-        )
+        }.start()
     }
 }

@@ -38,7 +38,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.RecyclerItemViewHolde
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: Weather) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                itemView.findViewById<TextView>(R.id.history_item__recycler_view_item).text =
+                itemView.findViewById<TextView>(R.id.history_item_recycler_view_item).text =
                     String.format("%s %d %s", data.city.city, data.temperature, data.condition)
                 itemView.setOnClickListener {
                     Toast.makeText(

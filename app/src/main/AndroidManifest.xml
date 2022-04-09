@@ -3,6 +3,7 @@
     package="ru.gb.android_course_kotlin">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,7 @@
         android:theme="@style/Theme.Android_course_kotlin">
         <service
             android:name=".services.WeatherApiRequestService"
-            android:exported="false"></service>
+            android:exported="false"/>
 
         <activity
             android:name=".MainActivity"

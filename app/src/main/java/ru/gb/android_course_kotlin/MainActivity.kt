@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import ru.gb.android_course_kotlin.databinding.ActivityMainBinding
+import ru.gb.android_course_kotlin.ui.contacts.ContactsFragment
 import ru.gb.android_course_kotlin.ui.history.HistoryFragment
 import ru.gb.android_course_kotlin.ui.main.MainFragment
 
@@ -34,6 +35,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .add(R.id.container, HistoryFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.main_menu_contacts -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(R.id.container, ContactsFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }

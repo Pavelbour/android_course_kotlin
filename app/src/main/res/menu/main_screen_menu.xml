@@ -7,4 +7,9 @@
         android:title="@string/menu_title_history"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/main_menu_contacts"
+        android:title="@string/menu_title_contacts"
+        app:showAsAction="always"/>
+
 </menu>

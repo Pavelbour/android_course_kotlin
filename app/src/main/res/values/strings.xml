@@ -20,4 +20,8 @@
     <string name="dialog_rationale_decline">No, thank\'s</string>
     <string name="dialog_address_title">Your address</string>
     <string name="dialog_address_get_weather">Get weather</string>
+    <string name="menu_title_map">map</string>
+
+    <string name="search_button">Search</string>
+    <string name="search_start">Start</string>
 </resources>

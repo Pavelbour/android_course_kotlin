@@ -7,4 +7,21 @@
     <string name="reload">Reloading</string>
     <string name="menu_title_history">History</string>
     <string name="menu_title_contacts">Contacts</string>
+
+    <string name="dialog_button_close">Close</string>
+    <string name="dialog_title_no_gps">GPS isn\'t allowed</string>
+    <string name="dialog_message_no_gps">Allow GPS if you want to get the weather</string>
+    <string name="dialog_title_gps_turned_of">GPS is disabled</string>
+    <string name="dialog_message_last_location_unknown">Unknown location. Enable GPS if you want to get the weather</string>
+    <string name="dialog_message_last_known_location">Last known location displayed. Enable GPS if you want to refresh your location</string>
+    <string name="dialog_rationale_title">GPS access</string>
+    <string name="dialog_rationale_message">Explication</string>
+    <string name="dialog_rationale_give_access">Allow access</string>
+    <string name="dialog_rationale_decline">No, thank\'s</string>
+    <string name="dialog_address_title">Your address</string>
+    <string name="dialog_address_get_weather">Get weather</string>
+    <string name="menu_title_map">map</string>
+
+    <string name="search_button">Search</string>
+    <string name="search_start">Start</string>
 </resources>

@@ -8,6 +8,8 @@ import ru.gb.android_course_kotlin.databinding.ActivityMainBinding
 import ru.gb.android_course_kotlin.ui.contacts.ContactsFragment
 import ru.gb.android_course_kotlin.ui.history.HistoryFragment
 import ru.gb.android_course_kotlin.ui.main.MainFragment
+import ru.gb.android_course_kotlin.ui.maps.MapsFragment
+import ru.gb.android_course_kotlin.ui.maps.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -44,6 +46,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.apply {
                     beginTransaction()
                         .add(R.id.container, ContactsFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.main_menu_map -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(R.id.container, SearchFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }

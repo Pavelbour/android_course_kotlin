@@ -103,7 +103,9 @@ class CityDetailsFragment : Fragment() {
     }
 
     private fun saveCityToDb(weather: Weather) {
-        dbRepository.saveEntity(weather)
+        Thread {
+            dbRepository.saveEntity(weather)
+        }.start()
     }
 
     override fun onDestroyView() {

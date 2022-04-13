@@ -17,6 +17,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Android_course_kotlin">
 
+        <service
+            android:name=".ui.fcm.MessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />

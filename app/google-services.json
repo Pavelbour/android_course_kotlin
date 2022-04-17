@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "176617738642",
+    "project_id": "rosy-fiber-346814",
+    "storage_bucket": "rosy-fiber-346814.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176617738642:android:22ce6e87ae5151a03bb14b",
+        "android_client_info": {
+          "package_name": "ru.gb.android_course_kotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176617738642-rdns2fn6r7v8hak657h7p4e23nuaoq0b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUrRZuqgmZBqv-7nFXAp4SFE6XDH7jUgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176617738642-rdns2fn6r7v8hak657h7p4e23nuaoq0b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

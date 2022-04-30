@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import ru.gb.android_course_kotlin.BuildConfig
 import ru.gb.android_course_kotlin.R
 import ru.gb.android_course_kotlin.databinding.FragmentSearchBinding
 import java.io.IOException
@@ -56,19 +57,23 @@ class SearchFragment : Fragment() {
     }
 
     private fun intiSearchByAddress() {
-        binding.searchButton.setOnClickListener {
-            val geocoder = Geocoder(it.context)
-            val searchText = binding.searchEditText.text.toString()
-            Thread{
-                try {
-                    val addresses = geocoder.getFromLocationName(searchText,1)
-                    if (addresses.size > 0) {
-                        goToAddress(addresses, it, searchText)
+        if (BuildConfig.FLAVOR == "premium") {
+            binding.searchButton.setOnClickListener {
+                val geocoder = Geocoder(it.context)
+                val searchText = binding.searchEditText.text.toString()
+                Thread {
+                    try {
+                        val addresses = geocoder.getFromLocationName(searchText, 1)
+                        if (addresses.size > 0) {
+                            goToAddress(addresses, it, searchText)
+                        }
+                    } catch (e: IOException) {
+                        e.printStackTrace()
                     }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }.start()
+                }.start()
+            }
+        } else {
+            binding.searchButton.isClickable = false
         }
     }
 

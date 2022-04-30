@@ -54,6 +54,7 @@ class MainFragment() : Fragment() {
 
         binding.citiesList.layoutManager = LinearLayoutManager(context)
         binding.citiesList.adapter = adapter
+        binding.fragmentCitiesListBuild.text = getString(R.string.build)
 
         val observer = Observer<DataState> {
             when(it) {

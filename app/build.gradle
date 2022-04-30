@@ -9,6 +9,25 @@ plugins {
 apply plugin: 'kotlin-android'
 
 android {
+    Properties properties1 = new Properties()
+    properties1.load(project.rootProject.file("local.properties").newDataInputStream())
+    def storage = properties1.getProperty("store", "")
+    def pass = properties1.getProperty("pass", "")
+    def key = properties1.getProperty("key", "")
+    signingConfigs {
+        debug {
+            storeFile file(storage)
+            storePassword pass
+            keyAlias key
+            keyPassword pass
+        }
+        release {
+            storeFile file(storage)
+            storePassword pass
+            keyAlias key
+            keyPassword pass
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -25,6 +44,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            versionNameSuffix "-debug"
+        }
+        forQa {
+            initWith debug
+            versionNameSuffix "-qa"
         }
     }
 
@@ -41,6 +68,17 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    flavorDimensions 'Version'
+    productFlavors {
+        free {
+            dimension 'Version'
+            versionNameSuffix '.free'
+        }
+        premium {
+            dimension 'Version'
+            versionNameSuffix '.premium'
+        }
     }
 }
 
